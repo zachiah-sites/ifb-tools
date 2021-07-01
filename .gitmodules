@@ -1,9 +1,3 @@
-[submodule "src/data/-C"]
-	path = src/data/-C
-	url = https://github.com/aruljohn/Bible-kjv
-[submodule "src/data/bible"]
-	path = src/data/bible
-	url = https://github.com/aruljohn/Bible-kjv
 [submodule "src/data/bible-raw"]
 	path = src/data/bible-raw
 	url = https://github.com/aruljohn/Bible-kjv

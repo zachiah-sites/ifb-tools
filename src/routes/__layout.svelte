@@ -7,7 +7,16 @@
 
 	let links: NavLinks;
 	$: links = $authStore
-		? [{ href: '/', text: 'home' }, '', { href: '/', text: 'sign out' }]
+		? [
+				{ href: '/', text: 'home' },
+				'',
+				{
+					async onClick() {
+						await authStore.signOut();
+					},
+					text: 'sign out'
+				}
+		  ]
 		: [
 				{ href: '/', text: 'home' },
 				'',

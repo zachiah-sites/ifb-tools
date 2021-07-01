@@ -1,5 +1,9 @@
 <script lang="ts" context="module">
-	export type NavLinks = ({ href: string; text: string } | '')[];
+	export type NavLinks = (
+		| { href: string; text: string }
+		| { onClick: () => void; text: string }
+		| ''
+	)[];
 </script>
 
 <script lang="ts">
@@ -10,10 +14,17 @@
 	{#each links as link}
 		{#if link === ''}
 			<span class="flex-grow" />
+		{:else if link['onClick']}
+			<button
+				class="p-4 hover:bg-blue-200 hover:text-blue-800 active:bg-blue-100 active:text-black duration-200"
+				on:click={link['onClick']}
+			>
+				{link.text}
+			</button>
 		{:else}
 			<a
 				class="p-4 hover:bg-blue-200 hover:text-blue-800 active:bg-blue-100 active:text-black duration-200"
-				href={link.href}>{link.text}</a
+				href={link['href']}>{link.text}</a
 			>
 		{/if}
 	{/each}
