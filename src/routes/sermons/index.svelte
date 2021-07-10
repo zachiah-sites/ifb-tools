@@ -10,6 +10,7 @@
 	import { authStore } from '~/data/db';
 	import { supabase } from '~/supabase';
 	import Plus from '~/components/icons/Plus.svelte';
+	import Loader from '~/components/Loader.svelte';
 
 	const fetchSermons = async () => {
 		const { error, data } = await supabase.from('sermons').select(`
@@ -41,7 +42,7 @@
 </script>
 
 {#await fetchSermons()}
-	Loading...
+	<Loader />
 {:then data}
 	{#if data.length === 0}
 		<Jumbotron title="You Don't Have Any Sermons">

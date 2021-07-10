@@ -10,6 +10,7 @@
 	import LinkButton from '~/components/LinkButton.svelte';
 	import ArrowLeft from '~/components/icons/ArrowLeft.svelte';
 	import { onMount } from 'svelte';
+	import Loader from '~/components/Loader.svelte';
 
 	let SermonEditor = null;
 	onMount(async () => {
@@ -42,7 +43,7 @@
 </script>
 
 {#await getSermon()}
-	Loading...
+	<Loader />
 {:then sermon}
 	{#if sermon[404]}
 		<Jumbotron title="Sermon Not Found" />
@@ -65,6 +66,8 @@
 				}}
 				initialData={sermon.content}
 			/>
+		{:else}
+			<Loader />
 		{/if}
 	{/if}
 {/await}
