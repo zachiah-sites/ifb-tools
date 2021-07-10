@@ -24,7 +24,8 @@
 	<div class="document-editor__toolbar" bind:this={toolbarContainer} />
 	<div class="document-editor__editable-container">
 		<div class="document-editor__editable" bind:this={editable}>
-			{@html initialData}
+			{@html initialData ||
+				`<ol style="list-style-type:decimal;"><li>Intro<ol style="list-style-type:upper-latin;"><li>Title</li><li>Verse</li><li>Pray</li></ol></li><li>Point 1<ol style="list-style-type:upper-latin;"><li>Subpoint 1</li><li>Subpoint 2</li></ol></li><li>Conclusion</li></ol>`}
 		</div>
 	</div>
 </div>
