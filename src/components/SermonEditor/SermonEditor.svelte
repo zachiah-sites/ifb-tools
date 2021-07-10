@@ -15,9 +15,6 @@
 		editor = await DecoupledEditor.create(editable, {
 			cloudServices: {}
 		});
-		if (initialData) {
-			editor.setData(initialData);
-		}
 
 		toolbarContainer.appendChild(editor.ui.view.toolbar.element);
 	});
@@ -27,7 +24,7 @@
 	<div class="document-editor__toolbar" bind:this={toolbarContainer} />
 	<div class="document-editor__editable-container">
 		<div class="document-editor__editable" bind:this={editable}>
-			<p>The initial editor data.</p>
+			{@html initialData}
 		</div>
 	</div>
 </div>
