@@ -3,7 +3,7 @@
 
 	import Button from '~/components/Button.svelte';
 	import Nav from '~/components/Nav.svelte';
-	import LinkButton from '~/components/LinkButton.svelte';
+	import Jumbotron from '~/components/Jumbotron.svelte';
 	import Form from '~/components/Form.svelte';
 	import FormField from '~/components/FormField.svelte';
 	import Modal from '~/components/Modal.svelte';
@@ -44,10 +44,9 @@
 	Loading...
 {:then data}
 	{#if data.length === 0}
-		<section class="self-center m-auto shadow-lg p-8 bg-gray-200">
-			<h1 class="text-2xl mb-6">You Don't Have Any Sermons</h1>
+		<Jumbotron title="You Don't Have Any Sermons">
 			<Button on:click={() => (modalOpen = true)}>Create One</Button>
-		</section>
+		</Jumbotron>
 	{:else}
 		<ul>
 			{#each data as sermon}

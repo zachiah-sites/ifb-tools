@@ -3,6 +3,7 @@
 	import NavLink from '~/components/NavLink.svelte';
 	import NavButton from '~/components/NavButton.svelte';
 	import Check from '~/components/icons/Check.svelte';
+	import Jumbotron from '~/components/Jumbotron.svelte';
 
 	import { page } from '$app/stores';
 	import { supabase } from '~/supabase';
@@ -50,9 +51,7 @@
 	{:else}
 		<Nav posClasses="top-0">
 			<NavLink href="/sermons"><ArrowLeft class="h-8" /></NavLink>
-			<h1 class="p-4 whitespace-nowrap bg-blue-800 text-white  flex-grow mr-auto">
-				{sermon.title}
-			</h1>
+			<Jumbotron title={sermon.title} />
 			<NavButton on:click={save}>
 				<Check class="h-8" />
 			</NavButton>
