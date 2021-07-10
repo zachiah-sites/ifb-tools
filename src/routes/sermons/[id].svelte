@@ -45,13 +45,13 @@
 	Loading...
 {:then sermon}
 	{#if sermon[404]}
-		<section>
-			<h1>Sermon Not Found</h1>
-		</section>
+		<Jumbotron title="Sermon Not Found" />
 	{:else}
 		<Nav posClasses="top-0">
 			<NavLink href="/sermons"><ArrowLeft class="h-8" /></NavLink>
-			<Jumbotron title={sermon.title} />
+			<h1 class="p-4 whitespace-nowrap bg-blue-800 text-white  flex-grow mr-auto">
+				{sermon.title}
+			</h1>
 			<NavButton on:click={save}>
 				<Check class="h-8" />
 			</NavButton>
