@@ -17,9 +17,7 @@
 	let hadFocus = false;
 </script>
 
-<div
-	class="rounded-lg shadow-lg flex flex-col my-6 {'' + value !== 'not-empty' ? 'not-empty' : ''}"
->
+<div class="rounded-lg shadow-lg flex flex-col my-6 {'' + value !== '' ? 'not-empty' : ''}">
 	<div class="relative h-20">
 		<input
 			{required}

@@ -6,7 +6,10 @@
 	export let error = '';
 </script>
 
-<form on:submit|preventDefault class="shadow-2xl rounded-2xl max-w-2xl m-auto bg-gray-200 p-4">
+<form
+	on:submit|preventDefault
+	class="shadow-2xl rounded-2xl max-w-full w-96 m-auto bg-gray-200 p-4"
+>
 	{#if title}
 		<h2 class="bg-gray-500 text-white shadow-lg rounded-lg p-4 text-3xl text-center text">
 			{title}

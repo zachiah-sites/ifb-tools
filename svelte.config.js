@@ -17,7 +17,8 @@ const config = {
 				alias: {
 					'~': path.resolve('./src')
 				}
-			}
+			},
+			optimizeDeps: {}
 		},
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte'

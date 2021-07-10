@@ -11,6 +11,7 @@
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
+		"@ckeditor/ckeditor5-autosave": "^29.0.0",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^4.19.0",
 		"@typescript-eslint/parser": "^4.19.0",
@@ -32,8 +33,13 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@bytemd/plugin-gfm": "^1.10.6",
+		"@ckeditor/ckeditor5-build-decoupled-document": "^29.0.0",
+		"@editorjs/editorjs": "^2.22.1",
+		"@editorjs/nested-list": "^1.0.2",
 		"@fortawesome/free-solid-svg-icons": "^5.15.3",
 		"@supabase/supabase-js": "^1.17.0",
+		"bytemd": "^1.10.6",
 		"google-auth-library": "^7.1.2",
 		"sk-auth": "^0.3.7",
 		"svelte-quill": "^1.2.0"

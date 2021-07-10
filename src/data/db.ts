@@ -18,6 +18,15 @@ function createAuthStore() {
 
 			if (error) throw error;
 
+			let { error: error2 } = await supabase.from('profiles').upsert(
+				{ username: email, id: user.id },
+				{
+					returning: 'minimal' // Don't return the value after inserting
+				}
+			);
+
+			if (error2) throw error2;
+
 			set(user);
 		},
 		async signOut() {
@@ -33,6 +42,15 @@ function createAuthStore() {
 			});
 
 			if (error) throw error;
+
+			let { error: error2 } = await supabase.from('profiles').upsert(
+				{ username: email, id: user.id },
+				{
+					returning: 'minimal' // Don't return the value after inserting
+				}
+			);
+
+			if (error2) throw error2;
 
 			set(user);
 		}
