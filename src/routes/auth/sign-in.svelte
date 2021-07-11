@@ -9,7 +9,7 @@
 	let password: string = '';
 
 	$: if ($authStore) {
-		goto('/');
+		goto(localStorage['goto-after-login'] || '/');
 	}
 
 	let error: string = null;
@@ -21,7 +21,7 @@
 	on:submit={async () => {
 		try {
 			await authStore.signIn({ email, password });
-			goto('/');
+			goto(localStorage['goto-after-sign-in'] || '/');
 		} catch (e) {
 			error = e.message;
 		}

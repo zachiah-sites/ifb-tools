@@ -11,6 +11,7 @@
 	import { onMount } from 'svelte';
 	import NavLinks from '~/components/NavLinks.svelte';
 	import type { NavLinksType } from '~/components/NavLinks.svelte';
+	import { goto } from '$app/navigation';
 
 	let links: NavLinksType;
 	$: links = $authStore
@@ -43,6 +44,27 @@
 			const value = $page.path;
 			console.log({ key, value });
 			localStorage[key] = value;
+		}
+	}
+
+	const requiresAuth = (path: string) => {
+		const r = [/^\/sermons/, /^\/sermons\/.*/];
+
+		for (let r1 of r) {
+			if (path.match(r1)) {
+				return true;
+			}
+		}
+		return false;
+	};
+	$: {
+		if (client) {
+			if (requiresAuth($page.path) && !$authStore) {
+				localStorage['goto-after-sign-in'] = $page.path;
+				goto('/auth/sign-in');
+			} else if ($page.path !== '/auth/sign-in') {
+				localStorage['goto-after-sign-in'] = '';
+			}
 		}
 	}
 </script>
