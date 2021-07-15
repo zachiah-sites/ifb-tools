@@ -33,6 +33,7 @@
 	import { onMount } from 'svelte';
 	import { authStore } from '~/data/db';
 	import ArrowLeft from '~/components/icons/ArrowLeft.svelte';
+	import Times from '~/components/icons/Times.svelte';
 	import copy from '~/util/copyToClipboard';
 
 	export let chapter: CompleteChapterEntity;
@@ -83,6 +84,9 @@
 
 {#if activeVersesArray.length > 0}
 	<Nav posClasses="top-0">
+		<NavButton on:click={() => (activeVerses = {})}>
+			<Times class="h-8"/>
+		</NavButton>
 		<NavButton
 			on:click={() => {
 				let x = activeVersesArray
