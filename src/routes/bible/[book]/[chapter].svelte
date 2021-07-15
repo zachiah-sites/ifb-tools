@@ -33,24 +33,35 @@
 	import { onMount } from 'svelte';
 	import { authStore } from '~/data/db';
 	import ArrowLeft from '~/components/icons/ArrowLeft.svelte';
+	import copy from '~/util/copyToClipboard';
 
 	export let chapter: CompleteChapterEntity;
 
 	let activeVerses: { [key: number]: boolean } = {};
-	$: activeVersesLength = Object.entries(activeVerses).filter(([a, b]) => b).length;
+	$: activeVersesArray = Object.entries(activeVerses)
+		.filter(([k, v]) => v)
+		.map(([k, v]) => +k);
 
 	const highlightColors = ['#9adab9', '#efc082', '#f2a5c4', '#f3e482', '#8bc5e0'];
 
 	let highlights: { formatting: string; verse: number }[];
-	onMount(async () => {
-		const { data, error } = await supabase
-			.from('bible_formatting')
-			.select('formatting,verse')
-			.filter('book', 'eq', chapter.book)
-			.filter('chapter', 'eq', chapter.chapter);
-		if (error) throw error;
-		highlights = data;
-	});
+
+	let mounted = false;
+	onMount(() => (mounted = true));
+
+	$: {
+		mounted &&
+			(async () => {
+				highlights = null;
+				const { data, error } = await supabase
+					.from('bible_formatting')
+					.select('formatting,verse')
+					.filter('book', 'eq', chapter.book)
+					.filter('chapter', 'eq', chapter.chapter);
+				if (error) throw error;
+				highlights = data;
+			})();
+	}
 
 	$: console.log(highlights);
 </script>
@@ -70,26 +81,33 @@
 	</LinkButton>
 </Nav>
 
-{#if activeVersesLength > 0}
+{#if activeVersesArray.length > 0}
 	<Nav posClasses="top-0">
-		<NavButton>
+		<NavButton
+			on:click={() => {
+				let x = activeVersesArray
+					.map((verse) => {
+						const fullVerse = chapter.verses[+verse - 1];
+						return `${formatBookName(fullVerse.book)} ${fullVerse.chapter}:${fullVerse.verse}\n${
+							fullVerse.text
+						}\n\n`;
+					})
+					.join('');
+				copy(x);
+			}}
+		>
 			<Copy class="h-8" />
 		</NavButton>
 		{#each highlightColors as color}
 			<NavButton
 				on:click={async () => {
-					const newHighlights = Object.entries(activeVerses)
-						.filter(([verse, v]) => v)
-						.map(([verse]) => ({
-							book: chapter.book,
-							chapter: chapter.chapter,
-							verse: +verse,
-							formatting: `background: ${color}`,
-							profile_id: $authStore.id
-						}));
-					// const { error } = await supabase.from('bible_formatting').upsert(
-					// 	newHighlights
-					// );
+					const newHighlights = activeVersesArray.map((verse) => ({
+						book: chapter.book,
+						chapter: chapter.chapter,
+						verse: verse,
+						formatting: `background: ${color}`,
+						profile_id: $authStore.id
+					}));
 
 					const error = await Promise.all(
 						newHighlights.map(async (d) => {
