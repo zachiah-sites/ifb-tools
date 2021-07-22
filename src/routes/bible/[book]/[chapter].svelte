@@ -164,7 +164,7 @@
 <main class="pb-48">
 	{#each chapter.verses as verse}
 		<article
-			class="flex p-4 duration-200 cursor-pointer border-2"
+			class="flex p-4 duration-200 border-2"
 			class:border-black={activeVerses[verse.verse]}
 			class:text-gray-600={activeVerses[verse.verse]}
 			class:border-transparent={!activeVerses[verse.verse]}
@@ -172,7 +172,7 @@
 			on:click={() =>
 				(activeVerses = { ...activeVerses, [verse.verse]: !activeVerses[verse.verse] })}
 		>
-			<h2 class="mr-4 p-2 text-xs bg-gray-200 flex items-center">{verse.verse}</h2>
+			<h2 class="mr-4 p-2 text-xs bg-gray-200 flex items-center cursor-pointer">{verse.verse}</h2>
 			<p class="self-center">
 				{verse.text}
 			</p>

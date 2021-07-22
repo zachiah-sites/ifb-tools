@@ -48,7 +48,10 @@
 				{#each chapters as chapter}
 					<a
 						class="w-1/4 p-4 bg-gray-200 text-center"
-						on:click={() => (open = false)}
+						on:click={() => {
+							activeSectionId = 'book';
+							open = false;
+						}}
 						href="/bible/{book}/{chapter}">{chapter}</a
 					>
 				{/each}
