@@ -81,11 +81,7 @@
 </script>
 
 <Nav posClasses="top-0">
-	<NavLink href="/bible/{chapter.previous.book}/{chapter.previous.chapter}">
-		<AngleLeft class="h-8" />
-	</NavLink>
-
-	<NavButton grow on:click={() => (selectChapterModalOpen = true)}>
+	<NavButton on:click={() => (selectChapterModalOpen = true)}>
 		<span class="mr-4">
 			{formatBookName(chapter.book)}
 			{chapter.chapter}
@@ -93,10 +89,6 @@
 
 		<AngleDown class="h-6 ml-2" />
 	</NavButton>
-
-	<NavLink href="/bible/{chapter.next.book}/{chapter.next.chapter}">
-		<AngleRight class="h-8" />
-	</NavLink>
 </Nav>
 
 <ChapterSelector bind:open={selectChapterModalOpen} initialBook={chapter.book} />
@@ -169,7 +161,7 @@
 	</Nav>
 {/if}
 
-<main>
+<main class="pb-30">
 	{#each chapter.verses as verse}
 		<article
 			class="flex p-4 duration-200 cursor-pointer border-2"
@@ -186,4 +178,18 @@
 			</p>
 		</article>
 	{/each}
+
+	<a
+		class="fixed bottom-0 mb-28 left-0 ml-12 bg-gray-400 shadow-lg rounded-full p-4"
+		href="/bible/{chapter.previous.book}/{chapter.previous.chapter}"
+	>
+		<AngleLeft class="h-8" />
+	</a>
+
+	<a
+		class="fixed bottom-0 mb-28 right-0 mr-12 bg-gray-400 shadow-lg rounded-full p-4"
+		href="/bible/{chapter.next.book}/{chapter.next.chapter}"
+	>
+		<AngleRight class="h-8" />
+	</a>
 </main>
