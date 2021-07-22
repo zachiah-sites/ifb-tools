@@ -180,14 +180,14 @@
 	{/each}
 
 	<a
-		class="fixed bottom-0 mb-28 left-0 ml-12 bg-gray-400 shadow-lg rounded-full p-4"
+		class="fixed bottom-0 mb-28 left-0 ml-12 bg-gray-400 shadow-lg rounded-full p-4 active:bg-gray-500 duration-75"
 		href="/bible/{chapter.previous.book}/{chapter.previous.chapter}"
 	>
 		<AngleLeft class="h-8" />
 	</a>
 
 	<a
-		class="fixed bottom-0 mb-28 right-0 mr-12 bg-gray-400 shadow-lg rounded-full p-4"
+		class="fixed bottom-0 mb-28 right-0 mr-12 bg-gray-400 shadow-lg rounded-full p-4 active:bg-gray-500 duration-75"
 		href="/bible/{chapter.next.book}/{chapter.next.chapter}"
 	>
 		<AngleRight class="h-8" />
