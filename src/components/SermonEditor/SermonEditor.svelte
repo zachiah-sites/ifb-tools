@@ -1,5 +1,4 @@
 <script lang="ts">
-	import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document/build/ckeditor';
 	import './sermon-editor.css';
 	import { createEventDispatcher, onMount } from 'svelte';
 	//import { Autosave } from '@ckeditor/ckeditor5-autosave';
@@ -12,6 +11,9 @@
 	let toolbarContainer;
 	let editable;
 	onMount(async () => {
+		const DecoupledEditor = (
+			await import('@ckeditor/ckeditor5-build-decoupled-document/build/ckeditor.js')
+		).default;
 		editor = await DecoupledEditor.create(editable, {
 			cloudServices: {}
 		});

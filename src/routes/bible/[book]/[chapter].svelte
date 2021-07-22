@@ -22,9 +22,11 @@
 </script>
 
 <script lang="ts">
+	import Select from 'svelte-select';
 	import LinkButton from '~/components/LinkButton.svelte';
 	import formatBookName from '~/data/bible/isomorphic/formatBookName';
 
+	import { bookNames, getChapterNumbers } from '~/data/bible/RawTypes';
 	import type { CompleteChapterEntity } from '~/data/bible/RawTypes';
 	import Nav from '~/components/Nav.svelte';
 	import NavButton from '~/components/NavButton.svelte';
@@ -35,6 +37,15 @@
 	import ArrowLeft from '~/components/icons/ArrowLeft.svelte';
 	import Times from '~/components/icons/Times.svelte';
 	import copy from '~/util/copyToClipboard';
+	import AngleDown from '~/components/icons/AngleDown.svelte';
+	import NavLink from '~/components/NavLink.svelte';
+	import AngleLeft from '~/components/icons/AngleLeft.svelte';
+	import AngleRight from '~/components/icons/AngleRight.svelte';
+	import Modal from '~/components/Modal.svelte';
+	import Form from '~/components/Form.svelte';
+	import { goto } from '$app/navigation';
+	import Button from '~/components/Button.svelte';
+	import ChapterSelector from '~/components/ChapterSelector.svelte';
 
 	export let chapter: CompleteChapterEntity;
 
@@ -65,27 +76,35 @@
 	}
 
 	$: console.log(highlights);
+
+	let selectChapterModalOpen = false;
 </script>
 
 <Nav posClasses="top-0">
-	<LinkButton class="rounded-none" href="/bible/{chapter.previous.book}/{chapter.previous.chapter}">
-		Previous
-	</LinkButton>
+	<NavLink href="/bible/{chapter.previous.book}/{chapter.previous.chapter}">
+		<AngleLeft class="h-8" />
+	</NavLink>
 
-	<h1 class="p-4 whitespace-nowrap bg-blue-800 text-white border-l border-r border-white flex-grow">
-		{formatBookName(chapter.book)}
-		{chapter.chapter}
-	</h1>
+	<NavButton grow on:click={() => (selectChapterModalOpen = true)}>
+		<span class="mr-4">
+			{formatBookName(chapter.book)}
+			{chapter.chapter}
+		</span>
 
-	<LinkButton class="rounded-none" href="/bible/{chapter.next.book}/{chapter.next.chapter}">
-		Next
-	</LinkButton>
+		<AngleDown class="h-6 ml-2" />
+	</NavButton>
+
+	<NavLink href="/bible/{chapter.next.book}/{chapter.next.chapter}">
+		<AngleRight class="h-8" />
+	</NavLink>
 </Nav>
+
+<ChapterSelector bind:open={selectChapterModalOpen} initialBook={chapter.book} />
 
 {#if activeVersesArray.length > 0}
 	<Nav posClasses="top-0">
 		<NavButton on:click={() => (activeVerses = {})}>
-			<Times class="h-8"/>
+			<Times class="h-8" />
 		</NavButton>
 		<NavButton
 			on:click={() => {

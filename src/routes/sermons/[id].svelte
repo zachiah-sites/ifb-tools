@@ -11,11 +11,7 @@
 	import ArrowLeft from '~/components/icons/ArrowLeft.svelte';
 	import { onMount } from 'svelte';
 	import Loader from '~/components/Loader.svelte';
-
-	let SermonEditor = null;
-	onMount(async () => {
-		SermonEditor = (await import('~/components/SermonEditor/SermonEditor.svelte')).default;
-	});
+	import SermonEditor from '~/components/SermonEditor/SermonEditor.svelte';
 
 	const id = $page.params.id;
 
@@ -57,17 +53,12 @@
 				<Check class="h-8" />
 			</NavButton>
 		</Nav>
-		{#if SermonEditor}
-			<svelte:component
-				this={SermonEditor}
-				bind:editor
-				on:save={(e) => {
-					console.log(e);
-				}}
-				initialData={sermon.content}
-			/>
-		{:else}
-			<Loader />
-		{/if}
+		<SermonEditor
+			bind:editor
+			on:save={(e) => {
+				console.log(e);
+			}}
+			initialData={sermon.content}
+		/>
 	{/if}
 {/await}
