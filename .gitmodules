@@ -1,3 +1,0 @@
-[submodule "src/data/bible-raw"]
-	path = src/data/bible-raw
-	url = https://github.com/aruljohn/Bible-kjv
