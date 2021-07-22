@@ -161,7 +161,7 @@
 	</Nav>
 {/if}
 
-<main class="pb-30">
+<main class="pb-48">
 	{#each chapter.verses as verse}
 		<article
 			class="flex p-4 duration-200 cursor-pointer border-2"
