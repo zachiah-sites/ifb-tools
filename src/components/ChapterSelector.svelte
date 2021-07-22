@@ -25,7 +25,7 @@
 	<Tabs
 		sizeClasses="h-full w-full"
 		sections={[
-			{ id: 'book', label: 'Book' },
+			{ id: 'book', label: formatBookName(book) },
 			{ id: 'chapter', label: 'Chapter' }
 		]}
 		bind:activeSectionId
@@ -33,14 +33,24 @@
 		<TabPane>
 			<div class="flex flex-wrap">
 				{#each bookNames as bookName}
-					<button class="w-1/3 p-4 bg-gray-200">{formatBookName(bookName)}</button>
+					<button
+						class="w-1/3 p-4 bg-gray-200"
+						on:click={() => {
+							book = bookName;
+							activeSectionId = 'chapter';
+						}}>{formatBookName(bookName)}</button
+					>
 				{/each}
 			</div>
 		</TabPane>
 		<TabPane>
 			<div class="flex flex-wrap">
 				{#each chapters as chapter}
-					<a class="w-1/4 p-4 bg-gray-200 text-center">{chapter}</a>
+					<a
+						class="w-1/4 p-4 bg-gray-200 text-center"
+						on:click={() => (open = false)}
+						href="/bible/{book}/{chapter}">{chapter}</a
+					>
 				{/each}
 			</div>
 		</TabPane>
