@@ -7,6 +7,9 @@ import { readFile } from 'fs';
 const readFilePromise = promisify(readFile);
 
 export default async function getBookJSON(book: BookName): Promise<BookEntity> {
+	console.log('\n\nTHE CURRENT WORKING DIRECTORY IS');
+	console.log(cwd());
+	console.log('\n\n');
 	if (!bookNames.includes(book)) {
 		throw new Error(
 			`getBookJSON("${book}") is invalid because ${book} is not a valid Bible book name`
