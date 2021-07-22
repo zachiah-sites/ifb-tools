@@ -16,9 +16,14 @@ export default async function getBookJSON(book: BookName): Promise<BookEntity> {
 		);
 	}
 	try {
-		console.log(join(cwd(), 'src/data/raw-bible/', `${book}.json`));
+		let _book = book
+			.replace('songofsolomon', 'SongofSolomon')
+			.replace(/^[0-9]?[a-z]/, (m) => m.toUpperCase());
+		console.log(_book);
+
+		console.log(join(cwd(), 'src/data/raw-bible/', `${_book}.json`));
 		const bookJSON = JSON.parse(
-			await readFilePromise(join(cwd(), 'src/data/raw-bible/', `${book}.json`), 'utf8')
+			await readFilePromise(join(cwd(), 'src/data/raw-bible/', `${_book}.json`), 'utf8')
 		);
 		return {
 			...bookJSON,
