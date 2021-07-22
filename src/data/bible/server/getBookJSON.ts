@@ -16,6 +16,7 @@ export default async function getBookJSON(book: BookName): Promise<BookEntity> {
 		);
 	}
 	try {
+		console.log(join(cwd(), 'src/data/raw-bible/', `${book}.json`));
 		const bookJSON = JSON.parse(
 			await readFilePromise(join(cwd(), 'src/data/raw-bible/', `${book}.json`), 'utf8')
 		);
