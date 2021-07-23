@@ -11,17 +11,24 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
-		"format": "prettier --write --plugin-search-dir=. ."
+		"format": "prettier --write --plugin-search-dir=. .",
+		"test": "jest"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.14.8",
+		"@babel/preset-env": "^7.14.8",
 		"@ckeditor/ckeditor5-autosave": "^29.0.0",
+		"@types/jest": "^26.0.24",
 		"@typescript-eslint/eslint-plugin": "^4.19.0",
 		"@typescript-eslint/parser": "^4.19.0",
 		"autoprefixer": "^10.2.6",
+		"babel-jest": "^27.0.6",
+		"babel-preset-jest": "^27.0.6",
 		"cssnano": "^5.0.6",
 		"eslint": "^7.22.0",
 		"eslint-config-prettier": "^8.1.0",
 		"eslint-plugin-svelte3": "^3.2.0",
+		"jest": "^27.0.0",
 		"postcss": "^8.3.5",
 		"postcss-load-config": "^3.1.0",
 		"prettier": "~2.2.1",
@@ -47,8 +54,6 @@
 		"@sveltejs/kit": "^1.0.0-next.134",
 		"bytemd": "^1.10.6",
 		"copy-to-clipboard": "^3.3.1",
-		"google-auth-library": "^7.1.2",
-		"sk-auth": "^0.3.7",
-		"svelte-quill": "^1.2.0"
+		"ts-jest": "^27.0.4"
 	}
 }
