@@ -22,6 +22,10 @@
 		});
 
 		toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+
+		editor.model.document.on('change:data', () => {
+			dispatch('change');
+		});
 	});
 </script>
 

@@ -31,11 +31,18 @@
 
 	let editor = null;
 	const save = async () => {
+		//TODO: Do Something With this Error
 		const { error } = await supabase
 			.from('sermons')
 			.update({ content: editor.getData() })
 			.eq('id', id);
+
+		if (!error) {
+			hasChanges = false;
+		}
 	};
+
+	let hasChanges = false;
 </script>
 
 {#await getSermon()}
@@ -49,12 +56,17 @@
 			<h1 class="p-4 whitespace-nowrap bg-blue-800 text-white  flex-grow mr-auto">
 				{sermon.title}
 			</h1>
-			<NavButton on:click={save}>
-				<Check class="h-8" />
-			</NavButton>
+			{#if hasChanges}
+				<NavButton on:click={save}>
+					<Check class="h-8" />
+				</NavButton>
+			{/if}
 		</Nav>
 		<SermonEditor
 			bind:editor
+			on:change={() => {
+				hasChanges = true;
+			}}
 			on:save={(e) => {
 				console.log(e);
 			}}
