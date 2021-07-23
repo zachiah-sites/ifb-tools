@@ -12,6 +12,7 @@
 	import NavLinks from '~/components/NavLinks.svelte';
 	import type { NavLinksType } from '~/components/NavLinks.svelte';
 	import { goto } from '$app/navigation';
+	import NavLink from '~/components/NavLink.svelte';
 
 	let links: NavLinksType;
 	$: links = $authStore
@@ -38,9 +39,10 @@
 		client = true;
 	});
 
+	$: pageType = $page.path.split('/')[1];
 	$: {
 		if (client) {
-			const key = `latest-path-${$page.path.split('/')[1]}`;
+			const key = `latest-path-${pageType}`;
 			const value = $page.path;
 			console.log({ key, value });
 			localStorage[key] = value;
@@ -78,12 +80,19 @@
 </main>
 
 <Nav posClasses="bottom-0">
-	<NavLinks
-		links={[
-			{ href: '/latest-routes/sermons', icon: Pencil },
-			{ href: '/latest-routes/bible', icon: Book },
-			{ href: '/latest-routes/soulwinning', icon: MapMarker },
-			{ href: '/latest-routes/memory', icon: Brain }
-		]}
-	/>
+	<NavLink href="/latest-routes/sermons" active={pageType === 'sermons'}>
+		<Pencil class="h-8" />
+	</NavLink>
+
+	<NavLink href="/latest-routes/bible" active={pageType === 'bible'}>
+		<Book class="h-8" />
+	</NavLink>
+
+	<NavLink href="/latest-routes/soulwinning" active={pageType === 'soulwinning'}>
+		<MapMarker class="h-8" />
+	</NavLink>
+
+	<NavLink href="/latest-routes/memory" active={pageType === 'memory'}>
+		<Brain class="h-8" />
+	</NavLink>
 </Nav>
