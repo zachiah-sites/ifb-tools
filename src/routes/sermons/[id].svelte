@@ -74,3 +74,14 @@
 		/>
 	{/if}
 {/await}
+
+<svelte:window
+	on:beforeunload={(e) => {
+		if (hasChanges) {
+			e.returnValue = true;
+			return true;
+		} else {
+			return;
+		}
+	}}
+/>
