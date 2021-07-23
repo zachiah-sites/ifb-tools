@@ -9,16 +9,29 @@
 
 	export let open: boolean;
 	export let initialBook: BookName;
+	export let initialChapter: number;
 
-	let book = initialBook;
+	let book: BookName;
+	let activeSectionId: string = 'book';
+
+	$: {
+		open;
+		activeSectionId = 'book';
+	}
+
+	$: {
+		book = initialBook;
+	}
+
+	$: {
+		console.log(activeSectionId);
+	}
 
 	$: chapters = getChapterNumbers(book);
 
 	//     on:submit={() => {
 	// selectChapterModalOpen = false;
 	// goto(`/bible/${selectChapterBook}/${selectChapterChapter}`);
-
-	let activeSectionId = 'book';
 </script>
 
 <Modal bind:open>
@@ -49,7 +62,6 @@
 					<a
 						class="w-1/4 p-4 bg-gray-200 text-center"
 						on:click={() => {
-							activeSectionId = 'book';
 							open = false;
 						}}
 						href="/bible/{book}/{chapter}">{chapter}</a

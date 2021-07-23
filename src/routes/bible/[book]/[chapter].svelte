@@ -96,7 +96,11 @@
 	</NavButton>
 </Nav>
 
-<ChapterSelector bind:open={selectChapterModalOpen} initialBook={chapter.book} />
+<ChapterSelector
+	bind:open={selectChapterModalOpen}
+	initialBook={chapter.book}
+	initialChapter={chapter.chapter}
+/>
 
 {#if activeVersesArray.length > 0}
 	<Nav posClasses="top-0">
