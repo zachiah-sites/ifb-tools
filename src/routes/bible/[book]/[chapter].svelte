@@ -78,6 +78,11 @@
 	$: console.log(highlights);
 
 	let selectChapterModalOpen = false;
+
+	$: {
+		chapter;
+		activeVerses = {};
+	}
 </script>
 
 <Nav posClasses="top-0">
