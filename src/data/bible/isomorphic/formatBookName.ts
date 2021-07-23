@@ -6,7 +6,7 @@ export default function formatBookName(book: BookName) {
 	}
 
 	let result: string = book;
-	if (book.startsWith('1') || book.startsWith('2')) {
+	if (book.startsWith('1') || book.startsWith('2') || book.startsWith('3')) {
 		result = `${result[0]} ${result.slice(1)}`;
 	}
 	return ` ${result}`.replace(/ ([a-z])/, (v) => v.toUpperCase()).trim();
