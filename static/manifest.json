@@ -1,0 +1,8 @@
+{
+    "name": "IFB Tools",
+    "short_name": "IFB Tools",
+    "start_url": "/",
+    "background_color": "#FFFFFF",
+    "theme_color": "#1e40af",
+    "display": "standalone"
+}
