@@ -1,4 +1,38 @@
-# create-svelte
+# Welcome to the repo for IFB Tools
+
+This site is designed for those who are from the Independent Fundemental Baptist movement(IFB).
+
+Here you can read/memorize the Bible(KJV), watch Biblical preaching and more.
+
+### What is the IFB?
+
+The IFB contains people who believe and preach the whole Bible from Genesis to Revelation.
+
+Examples of beliefs are:
+
+1: Salvation by faith alone.
+
+2: Once saved, always saved.
+
+**NOTE**: If you are not 100% sure you will go to Heaven when you die, please watch [The Bible Way to Heaven](https://www.youtube.com/watch?v=fgAvQbVrSIM&ab_channel=VerityBaptistChurch)
+
+3: Baptism occurs after salvation.
+
+4: The King James Version of the Bible is the only accurate word of God in Einglish today.
+
+We reject all modern versions.
+
+5: We believe that Jesus was born of a vergin named Mary, that he lived a perfect/sinless life, died on the cross, was buried and rose again.
+
+6: Trinity.
+
+Please check out our website [IFB Tools]([https://ifbtools.herokuapp.com](https://ifbtools.herokuapp.com/)) today!
+
+
+
+# Svelte
+
+## create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
 
