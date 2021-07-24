@@ -1,20 +1,32 @@
-# create-svelte
+# IFB Tools
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
+This site is designed for Independent Fundemental Baptists.
 
-## Creating a project
+Here you can read/memorize the Bible(KJV), watch Biblical preaching and more.
 
-If you're seeing this, you've probably already done this step. Congrats!
+### What is the IFB?
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+The IFB contains people who believe and preach the whole Bible from Genesis to Revelation.
 
-# create a new project in my-app
-npm init svelte@next my-app
-```
+Examples of beliefs are:
 
-> Note: the `@next` is temporary
+1: Salvation is by faith alone.
+
+2: Once a person is saved, they are always saved.
+
+**NOTE**: If you are not 100% sure you will go to Heaven when you die, please watch [The Bible Way to Heaven](https://www.youtube.com/watch?v=fgAvQbVrSIM&ab_channel=VerityBaptistChurch)
+
+3: Baptism occurs after salvation.
+
+4: The King James Version of the Bible is the only accurate word of God in Einglish today. All modern versions are perversions of Satan.
+
+5: We believe that Jesus was born of a virgin named Mary, that he lived a perfect/sinless life, died on the cross, was buried and rose again.
+
+6: The Trinity is a concept found in Scripture.
+
+[www.ifb.tools]([https://www.ifb.tools](https://www.ifb.tools/))
+
+# Contributing
 
 ## Developing
 
