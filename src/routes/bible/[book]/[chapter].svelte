@@ -46,6 +46,8 @@
 	import { goto } from '$app/navigation';
 	import Button from '~/components/Button.svelte';
 	import ChapterSelector from '~/components/ChapterSelector.svelte';
+	import Verse from '~/components/Verse.svelte';
+	import Search from '~/components/icons/Search.svelte';
 
 	export let chapter: CompleteChapterEntity;
 
@@ -83,10 +85,12 @@
 		chapter;
 		activeVerses = {};
 	}
+
+	let searchText;
 </script>
 
 <Nav posClasses="top-0">
-	<NavButton on:click={() => (selectChapterModalOpen = true)}>
+	<NavButton on:click={() => (selectChapterModalOpen = true)} extraClasses="mr-auto">
 		<span class="mr-4">
 			{formatBookName(chapter.book)}
 			{chapter.chapter}
@@ -94,6 +98,21 @@
 
 		<AngleDown class="h-6 ml-2" />
 	</NavButton>
+
+	<form
+		class="flex bg-white"
+		on:submit|preventDefault={() => {
+			goto(`/bible/search?text=${searchText}`);
+		}}
+	>
+		<input
+			type="text"
+			class="py-2 px-4 rounded-l-full text-black"
+			placeholder="Search..."
+			bind:value={searchText}
+		/>
+		<button type="submit" class="w-8 text-blue-800 p-2"><Search /></button>
+	</form>
 </Nav>
 
 <ChapterSelector
@@ -172,20 +191,14 @@
 
 <main class="pb-48">
 	{#each chapter.verses as verse}
-		<article
-			class="flex p-4 duration-200 border-2"
-			class:border-black={activeVerses[verse.verse]}
-			class:text-gray-600={activeVerses[verse.verse]}
-			class:border-transparent={!activeVerses[verse.verse]}
-			style="{highlights?.find((item) => item.verse === verse.verse)?.formatting};"
-			on:click={() =>
-				(activeVerses = { ...activeVerses, [verse.verse]: !activeVerses[verse.verse] })}
-		>
-			<h2 class="mr-4 p-2 text-xs bg-gray-200 flex items-center cursor-pointer">{verse.verse}</h2>
-			<p class="self-center">
-				{verse.text}
-			</p>
-		</article>
+		<Verse
+			on:click={() => {
+				activeVerses = { ...activeVerses, [verse.verse]: !activeVerses[verse.verse] };
+			}}
+			{verse}
+			active={activeVerses[verse.verse]}
+			formatting={highlights?.find((item) => item.verse === verse.verse)?.formatting}
+		/>
 	{/each}
 
 	<a
