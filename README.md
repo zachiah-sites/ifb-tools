@@ -18,7 +18,7 @@ Examples of beliefs are:
 
 3: Baptism occurs after salvation.
 
-4: The King James Version of the Bible is the only accurate word of God in Einglish today. All modern versions are perversions of Satan.
+4: The King James Version of the Bible is the only accurate word of God in Einglish today. all modern versions are perversions of Satan.
 
 5: We believe that Jesus was born of a virgin named Mary, that he lived a perfect/sinless life, died on the cross, was buried and rose again.
 
