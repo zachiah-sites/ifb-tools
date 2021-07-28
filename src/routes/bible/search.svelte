@@ -105,7 +105,7 @@
 {#if results.length}
 	<main class="pb-48">
 		{#each results as result}
-			<Verse verse={result.verse} highlightedText={result.highlightedText} />
+			<Verse verse={result.verse} highlightedText={result.highlightedText} search />
 		{/each}
 	</main>
 {:else if text.trim() === ''}
