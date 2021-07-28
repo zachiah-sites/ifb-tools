@@ -3,7 +3,7 @@ import { bookNames } from '~/data/bible/RawTypes';
 import getBookJSON from '~/data/bible/server/getBookJSON';
 
 export async function get({ params, query }) {
-	const text = query.get('text');
+	const text = query.get('text') || '';
 	console.log(text);
 	let exactMatch;
 	let wholeWordsOnly;

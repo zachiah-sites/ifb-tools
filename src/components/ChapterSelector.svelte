@@ -8,8 +8,8 @@
 	import formatBookName from '~/data/bible/isomorphic/formatBookName';
 
 	export let open: boolean;
-	export let initialBook: BookName;
-	export let initialChapter: number;
+	export let initialBook: BookName = null;
+	export let initialChapter: number = null;
 
 	let book: BookName;
 	let activeSectionId: string = 'book';
@@ -20,7 +20,7 @@
 	}
 
 	$: {
-		book = initialBook;
+		book = initialBook || 'genesis';
 	}
 
 	$: {
