@@ -41,7 +41,7 @@
 	import Verse from '~/components/Verse.svelte';
 	import type { VerseEntity } from '~/data/bible/RawTypes';
 
-	export let results: { verse: VerseEntity }[];
+	export let results: { verse: VerseEntity; highlightedText: string }[];
 	export let text: string;
 	export let wholeWordsOnly: boolean;
 	export let exactMatch: boolean;
@@ -77,7 +77,7 @@
 {#if results.length}
 	<main class="pb-48">
 		{#each results as result}
-			<Verse verse={result.verse} />
+			<Verse verse={result.verse} highlightedText={result.highlightedText} />
 		{/each}
 	</main>
 {:else}

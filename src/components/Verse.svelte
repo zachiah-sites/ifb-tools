@@ -4,6 +4,7 @@
 	export let verse: VerseEntity;
 	export let active: boolean = false;
 	export let formatting: string = '';
+	export let highlightedText: string = null;
 </script>
 
 <article
@@ -16,6 +17,6 @@
 >
 	<h2 class="mr-4 p-2 text-xs bg-gray-200 flex items-center cursor-pointer">{verse.verse}</h2>
 	<p class="self-center">
-		{verse.text}
+		{@html highlightedText || verse.text}
 	</p>
 </article>
