@@ -66,7 +66,7 @@
 
 	<div class="flex m-4 gap-4">
 		<div>
-			<input type="checkbox" bind:checked={wholeWordsOnly} />Whole Words Only
+			<input type="checkbox" bind:checked={wholeWordsOnly} /> Whole Words Only
 		</div>
 		<div>
 			<input type="checkbox" bind:checked={exactMatch} /> Exact Match
