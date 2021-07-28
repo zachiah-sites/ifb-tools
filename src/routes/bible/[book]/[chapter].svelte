@@ -112,51 +112,53 @@
 		>
 			<Copy class="h-8" />
 		</NavButton>
-		{#each highlightColors as color}
-			<NavButton
-				on:click={async () => {
-					const newHighlights = activeVersesArray.map((verse) => ({
-						book: chapter.book,
-						chapter: chapter.chapter,
-						verse: verse,
-						formatting: `background: ${color}`,
-						profile_id: $authStore.id
-					}));
+		<div class="overflow-auto flex shadow-inner">
+			{#each highlightColors as color}
+				<NavButton
+					on:click={async () => {
+						const newHighlights = activeVersesArray.map((verse) => ({
+							book: chapter.book,
+							chapter: chapter.chapter,
+							verse: verse,
+							formatting: `background: ${color}`,
+							profile_id: $authStore.id
+						}));
 
-					const error = await Promise.all(
-						newHighlights.map(async (d) => {
-							const { error } = await supabase
-								.from('bible_formatting')
-								.update(d)
-								.eq('book', d.book)
-								.eq('chapter', d.chapter)
-								.eq('verse', d.verse);
+						const error = await Promise.all(
+							newHighlights.map(async (d) => {
+								const { error } = await supabase
+									.from('bible_formatting')
+									.update(d)
+									.eq('book', d.book)
+									.eq('chapter', d.chapter)
+									.eq('verse', d.verse);
 
-							let error2;
-							if (error) {
-								error2 = (await supabase.from('bible_formatting').insert(d)).error;
-							}
+								let error2;
+								if (error) {
+									error2 = (await supabase.from('bible_formatting').insert(d)).error;
+								}
 
-							console.log({ error, error2 });
-							return error2;
-						})
-					);
-					//TODO: Better Error Handling Especially for no network
-					if (error.filter((i) => i).length) throw error;
-					highlights = [
-						...Object.entries(activeVerses)
-							.filter(([a, v]) => v)
-							.map(([verse]) => ({
-								verse: +verse,
-								formatting: `background: ${color}`
-							})),
-						...highlights
-					];
-				}}
-			>
-				<div class="h-8 w-8 rounded-full" style="background: {color}" />
-			</NavButton>
-		{/each}
+								console.log({ error, error2 });
+								return error2;
+							})
+						);
+						//TODO: Better Error Handling Especially for no network
+						if (error.filter((i) => i).length) throw error;
+						highlights = [
+							...Object.entries(activeVerses)
+								.filter(([a, v]) => v)
+								.map(([verse]) => ({
+									verse: +verse,
+									formatting: `background: ${color}`
+								})),
+							...highlights
+						];
+					}}
+				>
+					<div class="h-8 w-8 rounded-full" style="background: {color}" />
+				</NavButton>
+			{/each}
+		</div>
 	</Nav>
 {/if}
 

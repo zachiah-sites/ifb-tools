@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ page, fetch, session, context }) {
-		const text: string = page.query.get('text');
+		const text: string = page.query.get('text') || '';
 
 		let exactMatch;
 		let wholeWordsOnly;
