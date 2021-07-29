@@ -1,4 +1,7 @@
 {
+	"engines": {
+		"node": ">=14.16.0"
+	},
 	"name": "ifb-tools",
 	"version": "0.0.1",
 	"scripts": {
