@@ -31,4 +31,17 @@
 	<p class:self-center={!search}>
 		{@html highlightedText || verse.text}
 	</p>
+
+	{#if search}
+		<p>
+			<button disabled class="text-gray-600" title="Coming Soon" on:click|preventDefault={() => {}}
+				>Chapter</button
+			>
+			|
+			<a
+				class="text-yellow-700 border-b-2 border-transparent hover:border-yellow-700"
+				href="/bible/{verse.book}/{verse.chapter}">In Bible</a
+			>
+		</p>
+	{/if}
 </article>
