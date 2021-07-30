@@ -27,7 +27,7 @@
 
 	{#if showSearch}
 		<form
-			class=" bg-white hidden xs:flex"
+			class=" bg-white hidden xs:flex rounded-md mr-4"
 			on:submit|preventDefault={() => {
 				goto(`/bible/search?text=${searchText}`);
 			}}

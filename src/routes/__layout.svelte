@@ -13,6 +13,8 @@
 	import type { NavLinksType } from '~/components/NavLinks.svelte';
 	import { goto } from '$app/navigation';
 	import NavLink from '~/components/NavLink.svelte';
+	import Button from '~/components/Button.svelte';
+	import ArrowUp from '~/components/icons/ArrowUp.svelte';
 
 	let links: NavLinksType;
 	$: links = $authStore
@@ -69,7 +71,15 @@
 			}
 		}
 	}
+
+	let scrollY = 0;
 </script>
+
+<svelte:window
+	on:scroll={() => {
+		scrollY = window.scrollY;
+	}}
+/>
 
 <Nav posClasses="top-0">
 	<NavLinks {links} />
@@ -78,6 +88,21 @@
 <main class="pt-16 pb-16 h-[100vh] flex flex-col">
 	<slot />
 </main>
+
+{#if scrollY > 60}
+	<button
+		on:click={() => {
+			window.scroll({
+				top: 0,
+				left: 0,
+				behavior: 'smooth'
+			});
+		}}
+		class="fixed bottom-0 mb-28 left-0 right-0 mx-auto opacity-50 hover:opacity-80 active:opacity-80 bg-gray-400 shadow-lg rounded-full p-4 active:bg-gray-500 duration-75"
+	>
+		<ArrowUp class="h-8" />
+	</button>
+{/if}
 
 <Nav posClasses="bottom-0">
 	<NavLink href="/latest-routes/sermons" active={pageType === 'sermons'}>
