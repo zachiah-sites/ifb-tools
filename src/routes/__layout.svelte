@@ -13,7 +13,6 @@
 	import type { NavLinksType } from '~/components/NavLinks.svelte';
 	import { goto } from '$app/navigation';
 	import NavLink from '~/components/NavLink.svelte';
-	import Button from '~/components/Button.svelte';
 	import ArrowUp from '~/components/icons/ArrowUp.svelte';
 	import 'virtual:windi.css';
 	import 'virtual:windi-devtools';
