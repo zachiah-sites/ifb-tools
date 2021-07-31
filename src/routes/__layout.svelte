@@ -15,7 +15,8 @@
 	import NavLink from '~/components/NavLink.svelte';
 	import Button from '~/components/Button.svelte';
 	import ArrowUp from '~/components/icons/ArrowUp.svelte';
-	import 'virtual:windi.css'
+	import 'virtual:windi.css';
+	import 'virtual:windi-devtools';
 
 	let links: NavLinksType;
 	$: links = $authStore
