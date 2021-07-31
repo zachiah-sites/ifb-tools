@@ -2,6 +2,8 @@ import { derived, writable } from 'svelte/store';
 import { supabase } from '../supabase';
 import type { User } from '@supabase/supabase-js';
 import type { Writable } from 'svelte/store';
+import type { BookName } from './bible/RawTypes';
+import type { subscribe } from 'svelte/internal';
 
 function createAuthStore() {
 	const { subscribe, set, update } = writable(supabase.auth.user());
@@ -74,3 +76,5 @@ export const profileStore = derived(authStore, async (user) => {
 
 	return data as { username: string };
 });
+
+export const bibleProgressStore = writable(null);

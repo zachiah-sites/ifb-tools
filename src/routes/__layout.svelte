@@ -2,7 +2,7 @@
 	import Nav from '../components/Nav.svelte';
 	import '../app.css';
 
-	import { authStore } from '../data/db';
+	import { authStore, bibleProgressStore } from '../data/db';
 	import Pencil from '~/components/icons/Pencil.svelte';
 	import Book from '~/components/icons/Book.svelte';
 	import MapMarker from '~/components/icons/MapMarker.svelte';
@@ -15,7 +15,7 @@
 	import NavLink from '~/components/NavLink.svelte';
 	import ArrowUp from '~/components/icons/ArrowUp.svelte';
 	import 'virtual:windi.css';
-	import 'virtual:windi-devtools';
+	import { supabase } from '~/supabase';
 
 	let links: NavLinksType;
 	$: links = $authStore
@@ -74,6 +74,42 @@
 	}
 
 	let scrollY = 0;
+
+	let mounted = false;
+	onMount(() => {
+		mounted = true;
+	});
+
+	const fetchProgressData = async () => {
+		try {
+			const { data, error } = await supabase.from('bible_progress').select('data');
+			if (error) {
+				//TODO: Better Error Handling here
+				console.error(error);
+			}
+			if (data.length === 0) {
+				const { error: error2 } = await supabase
+					.from('bible_progress')
+					.insert({ profile_id: $authStore.id, data: {} });
+				if (error2) {
+					//TODO: Better Error Handling here
+					console.error(error);
+				}
+				console.log("created progress data as it didn't exsist");
+				$bibleProgressStore = {};
+			} else {
+				$bibleProgressStore = data[0].data;
+				console.log('using exsisting progress data', $bibleProgressStore);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	};
+	$: {
+		if (mounted && $authStore) {
+			fetchProgressData();
+		}
+	}
 </script>
 
 <svelte:window

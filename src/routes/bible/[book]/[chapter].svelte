@@ -22,34 +22,21 @@
 </script>
 
 <script lang="ts">
-	import Select from 'svelte-select';
-	import LinkButton from '~/components/LinkButton.svelte';
 	import formatBookName from '~/data/bible/isomorphic/formatBookName';
-
-	import { bookNames, getChapterNumbers } from '~/data/bible/RawTypes';
 	import type { CompleteChapterEntity } from '~/data/bible/RawTypes';
-	import Nav from '~/components/Nav.svelte';
 	import NavButton from '~/components/NavButton.svelte';
 	import Copy from '~/components/icons/Copy.svelte';
 	import { supabase } from '~/supabase';
 	import { onMount } from 'svelte';
-	import { authStore } from '~/data/db';
-	import ArrowLeft from '~/components/icons/ArrowLeft.svelte';
-	import Times from '~/components/icons/Times.svelte';
+	import { authStore, bibleProgressStore } from '~/data/db';
 	import copy from '~/util/copyToClipboard';
-	import AngleDown from '~/components/icons/AngleDown.svelte';
-	import NavLink from '~/components/NavLink.svelte';
 	import AngleLeft from '~/components/icons/AngleLeft.svelte';
 	import AngleRight from '~/components/icons/AngleRight.svelte';
-	import Modal from '~/components/Modal.svelte';
-	import Form from '~/components/Form.svelte';
-	import { goto } from '$app/navigation';
 	import Button from '~/components/Button.svelte';
-	import ChapterSelector from '~/components/ChapterSelector.svelte';
 	import Verse from '~/components/Verse.svelte';
-	import Search from '~/components/icons/Search.svelte';
 	import BibleTopBar from '~/components/BibleTopBar.svelte';
 	import BottomPopup from '~/components/BottomPopup.svelte';
+	import { goto } from '$app/navigation';
 
 	export let chapter: CompleteChapterEntity;
 
@@ -93,7 +80,7 @@
 
 <BibleTopBar text="{formatBookName(chapter.book)} {chapter.chapter}" {chapter} />
 
-<main class="pb-48">
+<main class="pb-48 flex flex-col">
 	{#each chapter.verses as verse}
 		<Verse
 			on:click={() => {
@@ -105,6 +92,31 @@
 		/>
 	{/each}
 
+	{#if $authStore}
+		<Button
+			class="w-max !mx-auto !mt-2"
+			on:click={async () => {
+				$bibleProgressStore[`${chapter.book}-${chapter.chapter}`] =
+					($bibleProgressStore[`${chapter.book}-${chapter.chapter}`] || 0) + 1;
+				const { data, error } = await supabase
+					.from('bible_progress')
+					.update({ data: $bibleProgressStore });
+
+				if (error) {
+					console.error(error);
+					//TODO: Better Error Handling here
+					//TODO: Show loader for users until supabase is done updating
+				}
+
+				goto(`/bible/${chapter.next.book}/${chapter.next.chapter}`);
+			}}
+		>
+			<span>Mark as Read</span>
+			<span class="opacity-70 ml-2">
+				({$bibleProgressStore?.[`${chapter.book}-${chapter.chapter}`] || 0})
+			</span>
+		</Button>
+	{/if}
 	<a
 		class="fixed bottom-0 mb-28 left-0 ml-12 bg-gray-400 shadow-lg rounded-full p-4 active:bg-gray-500 duration-75"
 		href="/bible/{chapter.previous.book}/{chapter.previous.chapter}"
