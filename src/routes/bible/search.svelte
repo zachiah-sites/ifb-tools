@@ -100,6 +100,8 @@
 			<input type="checkbox" bind:checked={tempExactMatch} /> Exact Match
 		</div>
 	</div>
+
+	<p class="p-4">There are {results.length} results for "{text}"</p>
 </form>
 
 {#if results.length}
