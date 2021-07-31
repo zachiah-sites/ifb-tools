@@ -49,6 +49,7 @@
 	import Verse from '~/components/Verse.svelte';
 	import Search from '~/components/icons/Search.svelte';
 	import BibleTopBar from '~/components/BibleTopBar.svelte';
+	import BottomPopup from '~/components/BottomPopup.svelte';
 
 	export let chapter: CompleteChapterEntity;
 
@@ -92,76 +93,6 @@
 
 <BibleTopBar text="{formatBookName(chapter.book)} {chapter.chapter}" {chapter} />
 
-{#if activeVersesArray.length > 0}
-	<Nav posClasses="top-0">
-		<NavButton on:click={() => (activeVerses = {})}>
-			<Times class="h-8" />
-		</NavButton>
-		<NavButton
-			on:click={() => {
-				let x = activeVersesArray
-					.map((verse) => {
-						const fullVerse = chapter.verses[+verse - 1];
-						return `${formatBookName(fullVerse.book)} ${fullVerse.chapter}:${fullVerse.verse}\n${
-							fullVerse.text
-						}\n\n`;
-					})
-					.join('');
-				copy(x);
-			}}
-		>
-			<Copy class="h-8" />
-		</NavButton>
-		<div class="overflow-auto flex shadow-inner">
-			{#each highlightColors as color}
-				<NavButton
-					on:click={async () => {
-						const newHighlights = activeVersesArray.map((verse) => ({
-							book: chapter.book,
-							chapter: chapter.chapter,
-							verse: verse,
-							formatting: `background: ${color}`,
-							profile_id: $authStore.id
-						}));
-
-						const error = await Promise.all(
-							newHighlights.map(async (d) => {
-								const { error } = await supabase
-									.from('bible_formatting')
-									.update(d)
-									.eq('book', d.book)
-									.eq('chapter', d.chapter)
-									.eq('verse', d.verse);
-
-								let error2;
-								if (error) {
-									error2 = (await supabase.from('bible_formatting').insert(d)).error;
-								}
-
-								console.log({ error, error2 });
-								return error2;
-							})
-						);
-						//TODO: Better Error Handling Especially for no network
-						if (error.filter((i) => i).length) throw error;
-						highlights = [
-							...Object.entries(activeVerses)
-								.filter(([a, v]) => v)
-								.map(([verse]) => ({
-									verse: +verse,
-									formatting: `background: ${color}`
-								})),
-							...highlights
-						];
-					}}
-				>
-					<div class="h-8 w-8 rounded-full" style="background: {color}" />
-				</NavButton>
-			{/each}
-		</div>
-	</Nav>
-{/if}
-
 <main class="pb-48">
 	{#each chapter.verses as verse}
 		<Verse
@@ -188,3 +119,68 @@
 		<AngleRight class="h-8" />
 	</a>
 </main>
+
+<BottomPopup open={activeVersesArray.length > 0} on:close={() => (activeVerses = {})}>
+	<NavButton
+		on:click={() => {
+			let x = activeVersesArray
+				.map((verse) => {
+					const fullVerse = chapter.verses[+verse - 1];
+					return `${formatBookName(fullVerse.book)} ${fullVerse.chapter}:${fullVerse.verse}\n${
+						fullVerse.text
+					}\n\n`;
+				})
+				.join('');
+			copy(x);
+		}}
+	>
+		<Copy class="h-8" />
+	</NavButton>
+	<div class="overflow-auto flex shadow-inner">
+		{#each highlightColors as color}
+			<NavButton
+				on:click={async () => {
+					const newHighlights = activeVersesArray.map((verse) => ({
+						book: chapter.book,
+						chapter: chapter.chapter,
+						verse: verse,
+						formatting: `background: ${color}`,
+						profile_id: $authStore.id
+					}));
+
+					const error = await Promise.all(
+						newHighlights.map(async (d) => {
+							const { error } = await supabase
+								.from('bible_formatting')
+								.update(d)
+								.eq('book', d.book)
+								.eq('chapter', d.chapter)
+								.eq('verse', d.verse);
+
+							let error2;
+							if (error) {
+								error2 = (await supabase.from('bible_formatting').insert(d)).error;
+							}
+
+							console.log({ error, error2 });
+							return error2;
+						})
+					);
+					//TODO: Better Error Handling Especially for no network
+					if (error.filter((i) => i).length) throw error;
+					highlights = [
+						...Object.entries(activeVerses)
+							.filter(([a, v]) => v)
+							.map(([verse]) => ({
+								verse: +verse,
+								formatting: `background: ${color}`
+							})),
+						...highlights
+					];
+				}}
+			>
+				<div class="h-8 w-8 rounded-full" style="background: {color}" />
+			</NavButton>
+		{/each}
+	</div>
+</BottomPopup>

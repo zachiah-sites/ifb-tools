@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Nav from '../components/Nav.svelte';
-	import '../app.postcss';
+	import '../app.css';
 
 	import { authStore } from '../data/db';
 	import Pencil from '~/components/icons/Pencil.svelte';
@@ -15,6 +15,7 @@
 	import NavLink from '~/components/NavLink.svelte';
 	import Button from '~/components/Button.svelte';
 	import ArrowUp from '~/components/icons/ArrowUp.svelte';
+	import 'virtual:windi.css'
 
 	let links: NavLinksType;
 	$: links = $authStore
