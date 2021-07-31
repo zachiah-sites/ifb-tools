@@ -16,6 +16,9 @@
 	import ArrowUp from '~/components/icons/ArrowUp.svelte';
 	import 'virtual:windi.css';
 	import { supabase } from '~/supabase';
+	import ChartBar from '~/components/icons/ChartBar.svelte';
+	import Cog from '~/components/icons/Cog.svelte';
+	import Video from '~/components/icons/Video.svelte';
 
 	let links: NavLinksType;
 	$: links = $authStore
@@ -141,20 +144,32 @@
 	</button>
 {/if}
 
-<Nav posClasses="bottom-0">
+<Nav posClasses="bottom-0 !h-10">
 	<NavLink href="/latest-routes/sermons" active={pageType === 'sermons'}>
-		<Pencil class="h-8" />
+		<Pencil class="h-6" />
 	</NavLink>
 
 	<NavLink href="/latest-routes/bible" active={pageType === 'bible'}>
-		<Book class="h-8" />
+		<Book class="h-5" />
 	</NavLink>
 
 	<NavLink href="/latest-routes/soulwinning" active={pageType === 'soulwinning'}>
-		<MapMarker class="h-8" />
+		<MapMarker class="h-5" />
 	</NavLink>
 
 	<NavLink href="/latest-routes/memory" active={pageType === 'memory'}>
-		<Brain class="h-8" />
+		<Brain class="h-5" />
+	</NavLink>
+
+	<NavLink href="/latest-routes/video" active={pageType === 'video'}>
+		<Video class="h-5" />
+	</NavLink>
+
+	<NavLink href="/latest-routes/stats" active={pageType === 'stats'}>
+		<ChartBar class="h-5" />
+	</NavLink>
+
+	<NavLink href="/latest-routes/settings" active={pageType === 'settings'}>
+		<Cog class="h-5" />
 	</NavLink>
 </Nav>
