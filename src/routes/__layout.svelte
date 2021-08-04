@@ -161,7 +161,7 @@
 		<Brain class="h-5" />
 	</NavLink>
 
-	<NavLink href="/latest-routes/video" active={pageType === 'video'}>
+	<NavLink href="/video" active={pageType === 'video'}>
 		<Video class="h-5" />
 	</NavLink>
 
