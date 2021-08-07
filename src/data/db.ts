@@ -77,4 +77,4 @@ export const profileStore = derived(authStore, async (user) => {
 	return data as { username: string };
 });
 
-export const bibleProgressStore = writable(null);
+export const bibleProgressStore = writable<{ [key: string]: number }>(null);

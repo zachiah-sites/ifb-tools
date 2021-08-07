@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ page, fetch, session, context }) {
-		if (['bible', 'sermons', 'memory', 'soulwinning'].includes(page.params.path)) {
+		if (['bible', 'sermons', 'memory', 'soulwinning', 'stats'].includes(page.params.path)) {
 			return {
 				props: {
 					path: page.params.path
@@ -17,7 +17,7 @@
 
 	import { onMount } from 'svelte';
 
-	export let path: 'bible' | 'sermons' | 'memory' | 'soulwinning';
+	export let path: string;
 
 	let client = false;
 	onMount(() => {
