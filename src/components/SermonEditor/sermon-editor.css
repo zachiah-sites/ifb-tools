@@ -141,3 +141,7 @@ Preserve the relative scale, though. */
 .document-editor .ck-content ol {
 	margin-left: 1em;
 }
+
+.document-editor__editable.ck-editor__editable {
+	max-width: 100%;
+}

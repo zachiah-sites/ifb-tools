@@ -125,7 +125,7 @@
 	<NavLinks {links} />
 </Nav>
 
-<main class="pt-16 pb-16 h-[100vh] flex flex-col">
+<main class="pt-16 pb-10 h-[100vh] flex flex-col">
 	<slot />
 </main>
 
