@@ -48,6 +48,7 @@
 	import type { VerseEntity } from '~/data/bible/RawTypes';
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import Times from '~/components/icons/Times.svelte';
 
 	export let results: { verse: VerseEntity; highlightedText: string }[] = [];
 	export let text: string;
@@ -74,16 +75,20 @@
 
 	let mounted = false;
 	let searchHistory: string[] = [];
+
+	let updatedHistory = false;
+	$: text && (updatedHistory = false);
 	onMount(() => {
 		mounted = true;
 	});
 
 	$: {
-		if (mounted) {
+		if (mounted && !updatedHistory) {
 			console.log('updating history');
+			updatedHistory = true;
 			searchHistory = [
 				...new Set([text, ...JSON.parse(localStorage.getItem('searchHistory') || '[]')])
-			];
+			].filter((i) => i.trim() !== '');
 			localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
 		}
 	}
@@ -129,22 +134,45 @@
 				}}
 			>
 				{#each searchHistory as searchHistoryItem}
-					<button
-						on:focus={() => {
-							focused = true;
-						}}
-						on:blur={() => {
-							focused = false;
-						}}
-						on:click={() => {
-							tempText = searchHistoryItem;
-							focused = false;
-						}}
-						class="bg-white text-black text-sm p-2 cursor-pointer active:bg-gray-200 duration-200 focus:bg-gray-300"
-						style="-webkit-tap-highlight-color: transparent;"
-					>
-						{searchHistoryItem}
-					</button>
+					<span class="flex gap-2">
+						<button
+							on:focus={() => {
+								focused = true;
+							}}
+							on:blur={() => {
+								focused = false;
+							}}
+							on:click={() => {
+								tempText = searchHistoryItem;
+								focused = false;
+							}}
+							class="bg-white text-black text-sm p-2 cursor-pointer active:bg-gray-200 duration-200 focus:bg-gray-300 flex-grow"
+							style="-webkit-tap-highlight-color: transparent;"
+						>
+							{searchHistoryItem}
+						</button>
+						<button
+							on:focus={() => {
+								focused = true;
+							}}
+							on:blur={() => {
+								focused = false;
+							}}
+							on:click={() => {
+								console.log('Removing', searchHistoryItem);
+								searchHistory = searchHistory.filter((i) => {
+									console.log(i, searchHistoryItem);
+									return i !== searchHistoryItem;
+								});
+
+								localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+							}}
+							class="bg-white text-black text-sm p-2 cursor-pointer active:bg-gray-200 duration-200 focus:bg-gray-300"
+							style="-webkit-tap-highlight-color: transparent;"
+						>
+							<Times class="w-2" />
+						</button>
+					</span>
 				{/each}
 			</div>
 		{/if}
@@ -159,7 +187,7 @@
 		</div>
 	</div>
 
-	<p class="p-4">There are {results.length} results for "{text}"</p>
+	<p class="p-4">There are {results?.length} results for "{text}"</p>
 </form>
 
 {#if results.length}

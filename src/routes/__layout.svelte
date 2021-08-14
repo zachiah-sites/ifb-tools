@@ -138,7 +138,7 @@
 				behavior: 'smooth'
 			});
 		}}
-		class="fixed bottom-0 mb-28 left-0 right-0 mx-auto opacity-50 hover:opacity-80 active:opacity-80 bg-gray-400 shadow-lg rounded-full p-4 active:bg-gray-500 duration-75"
+		class="w-min fixed bottom-0 mb-28 left-0 right-0 mx-auto opacity-50 hover:opacity-80 active:opacity-80 bg-gray-400 shadow-lg rounded-full p-4 active:bg-gray-500 duration-75"
 	>
 		<ArrowUp class="h-8" />
 	</button>
