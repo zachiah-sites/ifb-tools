@@ -46,6 +46,8 @@
 	import BibleTopBar from '~/components/BibleTopBar.svelte';
 	import Verse from '~/components/Verse.svelte';
 	import type { VerseEntity } from '~/data/bible/RawTypes';
+	import { fade } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
 	export let results: { verse: VerseEntity; highlightedText: string }[] = [];
 	export let text: string;
@@ -61,24 +63,47 @@
 		tempWholeWordsOnly === wholeWordsOnly &&
 		tempExactMatch === exactMatch
 	);
+
+	const submit = () =>
+		hasChanges &&
+		goto(
+			`/bible/search?text=${tempText}&wholeWordsOnly=${tempWholeWordsOnly}&exactMatch=${tempExactMatch}`
+		);
+
+	let focused = false;
+
+	let mounted = false;
+	let searchHistory: string[] = [];
+	onMount(() => {
+		mounted = true;
+	});
+
+	$: {
+		if (mounted) {
+			console.log('updating history');
+			searchHistory = [
+				...new Set([text, ...JSON.parse(localStorage.getItem('searchHistory') || '[]')])
+			];
+			localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+		}
+	}
 </script>
 
 <BibleTopBar text="Browse the Bible" showSearch={false} />
 
-<form
-	class="bg-gray-200"
-	on:submit|preventDefault={() =>
-		hasChanges &&
-		goto(
-			`/bible/search?text=${tempText}&wholeWordsOnly=${tempWholeWordsOnly}&exactMatch=${tempExactMatch}`
-		)}
->
-	<div class="bg-white shadow-lg m-4 flex px-2">
+<form class="bg-gray-200" on:submit|preventDefault={submit}>
+	<div class="bg-white shadow-lg m-4 flex px-2 relative">
 		<input
 			type="text"
 			bind:value={tempText}
 			class="text-lg p-2 mr-auto flex-grow bg-transparent"
 			placeholder="Search..."
+			on:focus={() => {
+				focused = true;
+			}}
+			on:blur={() => {
+				focused = false;
+			}}
 		/>
 		<button
 			type="submit"
@@ -90,6 +115,39 @@
 		>
 			<Search />
 		</button>
+
+		{#if focused}
+			<div
+				transition:fade
+				class="absolute p-2 shadow-lg w-full left-0 -bottom-12 transform translate-y-full bg-gray-100 flex flex-col gap-2 max-h-72 overflow-auto"
+				tabindex="0"
+				on:focus={() => {
+					focused = true;
+				}}
+				on:blur={() => {
+					focused = false;
+				}}
+			>
+				{#each searchHistory as searchHistoryItem}
+					<button
+						on:focus={() => {
+							focused = true;
+						}}
+						on:blur={() => {
+							focused = false;
+						}}
+						on:click={() => {
+							tempText = searchHistoryItem;
+							focused = false;
+						}}
+						class="bg-white text-black text-sm p-2 cursor-pointer active:bg-gray-200 duration-200 focus:bg-gray-300"
+						style="-webkit-tap-highlight-color: transparent;"
+					>
+						{searchHistoryItem}
+					</button>
+				{/each}
+			</div>
+		{/if}
 	</div>
 
 	<div class="flex m-4 gap-4">
