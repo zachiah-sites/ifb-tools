@@ -116,7 +116,7 @@
 			<Search />
 		</button>
 
-		{#if focused}
+		{#if focused && searchHistory.length}
 			<div
 				transition:fade
 				class="absolute p-2 shadow-lg w-full left-0 -bottom-12 transform translate-y-full bg-gray-100 flex flex-col gap-2 max-h-72 overflow-auto"
