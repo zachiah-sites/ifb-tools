@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	export async function load({ page, fetch, session, context }) {
 		const text: string = page.query.get('text') || '';
+		const pageNumber: number = +page.query.get('page') || 1;
 
 		let exactMatch;
 		let wholeWordsOnly;
@@ -21,17 +22,19 @@
 			};
 		}
 
-		const url = `/api/bible/search.json?text=${text}&wholeWordsOnly=${wholeWordsOnly}&exactMatch=${exactMatch}`;
+		const url = `/api/bible/search.json?text=${text}&wholeWordsOnly=${wholeWordsOnly}&exactMatch=${exactMatch}&page=${pageNumber}`;
 		console.log({ url });
 		const res = await fetch(url);
+		const res2 = await res.json();
 
 		if (res.ok) {
 			return {
 				props: {
-					results: (await res.json()).results,
+					res: res2,
 					text,
 					exactMatch,
-					wholeWordsOnly
+					wholeWordsOnly,
+					page: pageNumber
 				}
 			};
 		}
@@ -49,11 +52,23 @@
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import Times from '~/components/icons/Times.svelte';
+	import AngleLeft from '~/components/icons/AngleLeft.svelte';
+	import AngleRight from '~/components/icons/AngleRight.svelte';
 
-	export let results: { verse: VerseEntity; highlightedText: string }[] = [];
+	export let res: {
+		results: { verse: VerseEntity; highlightedText: string }[];
+		pages: number;
+		total: number;
+	};
+
+	$: results = res.results;
+	$: pages = res.pages;
+	$: total = res.total;
+
 	export let text: string;
 	export let wholeWordsOnly: boolean;
 	export let exactMatch: boolean;
+	export let page: number;
 
 	let tempText = text;
 	let tempWholeWordsOnly = wholeWordsOnly;
@@ -65,10 +80,11 @@
 		tempExactMatch === exactMatch
 	);
 
-	const submit = () =>
-		hasChanges &&
+	const submit = () => hasChanges && submitNQA();
+
+	const submitNQA = (page: number = 1) =>
 		goto(
-			`/bible/search?text=${tempText}&wholeWordsOnly=${tempWholeWordsOnly}&exactMatch=${tempExactMatch}`
+			`/bible/search?text=${tempText}&wholeWordsOnly=${tempWholeWordsOnly}&exactMatch=${tempExactMatch}&page=${page}`
 		);
 
 	let focused = false;
@@ -187,7 +203,8 @@
 		</div>
 	</div>
 
-	<p class="p-4">There are {results?.length} results for "{text}"</p>
+	<p class="px-4 pt-4 pb-2">Showing {results.length} of {total} for search "{text}"</p>
+	<p class="px-4 pb-4">Page {page} of {pages}</p>
 </form>
 
 {#if results.length}
@@ -195,6 +212,30 @@
 		{#each results as result}
 			<Verse verse={result.verse} highlightedText={result.highlightedText} search />
 		{/each}
+
+		{#if pages > 1}
+			<button
+				disabled={page === 1}
+				class:cursor-default={page === 1}
+				class:bg-gray-400!={page === 1}
+				class:text-gray-500={page === 1}
+				class="fixed bottom-0 mb-28 left-0 ml-12 bg-gray-400 shadow-lg rounded-full p-4 active:bg-gray-500 duration-75"
+				on:click={() => submitNQA(page - 1)}
+			>
+				<AngleLeft class="h-8" />
+			</button>
+
+			<button
+				disabled={page === pages}
+				class:cursor-default={page === pages}
+				class:bg-gray-400!={page === pages}
+				class:text-gray-500={page === pages}
+				class="fixed bottom-0 mb-28 right-0 mr-12 bg-gray-400 shadow-lg rounded-full p-4 active:bg-gray-500 duration-75"
+				on:click={() => submitNQA(page + 1)}
+			>
+				<AngleRight class="h-8" />
+			</button>
+		{/if}
 	</main>
 {:else if text.trim() === ''}
 	<Jumbotron title="No Results">Type Your Search Query</Jumbotron>

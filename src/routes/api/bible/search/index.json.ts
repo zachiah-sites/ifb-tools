@@ -4,6 +4,9 @@ import getBookJSON from '~/data/bible/server/getBookJSON';
 
 export async function get({ params, query }) {
 	const text = query.get('text') || '';
+	const page = Math.max(+query.get('page'), 1) || 1;
+	const perPage = +query.get('perPage') || 200;
+
 	console.log(text);
 	let exactMatch;
 	let wholeWordsOnly;
@@ -27,6 +30,10 @@ export async function get({ params, query }) {
 	).flat(3);
 
 	return {
-		body: { results }
+		body: {
+			results: results.slice((page - 1) * perPage, page * perPage),
+			pages: Math.ceil(results.length / perPage),
+			total: results.length
+		}
 	};
 }
